@@ -1,0 +1,23 @@
+version: '2.3'
+services:
+  tiago-pick-demo:
+    container_name: tiago-pick-demo
+    image: fbe-dockerreg.rwu.de/stud-amr/tiago_tutorials:melodic
+    runtime: nvidia
+    environment:
+        ROS_IP: $ROS_IP
+        ROS_MASTER_URI: $ROS_MASTER_URI
+        ROS_HOSTNAME: $ROS_HOSTNAME
+        WAIT_FOR_ROSCORE: 0
+        DISPLAY: $DISPLAY
+        QT_X11_NO_MITSHM: '1'
+        NVIDIA_VISIBLE_DEVICES: all
+        NVIDIA_DRIVER_CAPABILITIES: compute,video,utility,graphics
+    privileged: true
+    stdin_open: true
+    restart: 'unless-stopped'
+    network_mode: host
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - $HOME/.Xauthority:/root/.Xauthority
+    command: bash -c "source /root/catkin_ws/devel/setup.bash; roslaunch tiago_pick_demo pick_simulation.launch"

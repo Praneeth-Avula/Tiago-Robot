@@ -1,0 +1,29 @@
+version: '2.4'
+services:
+  qr-code-reader:
+    container_name: qr-code-reader
+    image: fbe-dockerreg.rwu.de/prj-iki-robotics/utils/code-reader-qr:master
+    environment:
+      ROS_IP: $ROS_IP
+      ROS_HOSTNAME: $ROS_HOSTNAME
+      ROS_MASTER_URI: $ROS_MASTER_URI
+      WAIT_FOR_ROSCORE: 1
+    stdin_open: true
+    network_mode: host
+    restart: "unless-stopped"
+    tty: true
+    command: roslaunch ar_track_alvar pr2_indiv_no_kinect.launch cam_info_topic:=/xtion/rgb/camera_info cam_image_topic:=/xtion/rgb/image_color output_frame:=map marker_size:=5.5 max_new_marker_error:=0.08 max_track_error:=0.02
+
+  #bar-code-reader:
+  #  container_name: bar-code-reader
+  #  image: fbe-dockerreg.rwu.de/prj-iki-robotics/utils/code-reader-bar:master
+  #  environment:
+  #    ROS_IP: $ROS_IP
+  #    ROS_HOSTNAME: $ROS_HOSTNAME
+  #    ROS_MASTER_URI: $ROS_MASTER_URI
+  #    WAIT_FOR_ROSCORE: 1
+  #  stdin_open: true
+  #  network_mode: host
+  #  restart: "unless-stopped"
+  #  tty: true
+  #  command: roslaunch zbar_ros_launch default.launch image_input_topic:=/camera/rgb/image throttle_repeated_barcodes:=10.0
